@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { loginUser as apiLoginUser, registerUser as apiRegisterUser } from '../services/api';
 
-const AuthContext = createContext();
+const AutContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -52,12 +52,12 @@ export const AuthProvider = ({ children }) => {
   const isAuthenticated = !!token;
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated, login, register, logout, loading }}>
+    <AutContext.Provider value={{ user, token, isAuthenticated, login, register, logout, loading }}>
       {!loading && children}
-    </AuthContext.Provider>
+    </AutContext.Provider>
   );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
+export const useAut = () => {
+  return useContext(AutContext);
 };
