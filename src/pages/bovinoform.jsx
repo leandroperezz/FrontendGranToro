@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createBovino, getBovinoById, updateBovino } from '../services/api';
-import { useAut } from '../context/autcontext';
+import { useAuth } from '../context/authcontext';
+import { createBovino, getBovinoById, updateBovino, getAllRazas } from '../services/api';
 
 const BovinoForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isAutenticado } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
     razaId: '',
     edad: '',
@@ -21,11 +21,30 @@ const BovinoForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const [razas, setRazas] = useState([]);
+  const [loadingRazas, setLoadingRazas] = useState(true);
+  const [errorRazas, setErrorRazas] = useState(null);
 
   const isEditing = Boolean(id);
 
   useEffect(() => {
-    if (!isAutenticado) {
+    const fetchRazas = async () => {
+      try {
+        const data = await getAllRazas();
+        setRazas(data);
+      } catch (err) {
+        setErrorRazas('Error al cargar las razas: ' + err.message);
+      } finally {
+        setLoadingRazas(false);
+      }
+    };
+    if (isAuthenticated) {
+      fetchRazas();
+    }
+  }, [isAuthenticated])
+
+  useEffect(() => {
+    if (!isAuthenticated) {
       navigate('/auth');
       return;
     }
@@ -48,7 +67,7 @@ const BovinoForm = () => {
       };
       fetchBovino();
     }
-  }, [id, isEditing, isAutenticado, user, navigate]);
+  }, [id, isEditing, isAuthenticated, user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,12 +111,14 @@ const BovinoForm = () => {
     }
   };
 
-  if (!isAutenticado && !loading) {
+  if (!isAuthenticated && !loading) {
     return <div style={{ textAlign: 'center', marginTop: '50px', color: 'red' }}>Necesitas iniciar sesión para acceder a esta página.</div>;
   }
   if (loading && isEditing) return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando datos del bovino...</div>;
   if (error && isEditing) return <div style={{ textAlign: 'center', marginTop: '50px', color: 'red' }}>{error}</div>;
 
+  if (loadingRazas) return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando razas...</div>;
+  if (errorRazas) return <div style={{ textAlign: 'center', marginTop: '50px', color: 'red' }}>{errorRazas}</div>;
 
   return (
     <div style={{ maxWidth: '600px', margin: '50px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
@@ -106,7 +127,7 @@ const BovinoForm = () => {
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="edad" style={{ display: 'block', marginBottom: '5px' }}>Edad:</label>
+          <label htmlFor="edad" style={{ display: 'block', marginBottom: '5px' }}>Edad (en meses):</label>
           <input type="number" name="edad" id="edad" value={formData.edad} onChange={handleChange} required style={{ width: '100%', padding: '8px' }} />
         </div>
         <div style={{ marginBottom: '10px' }}>
@@ -118,8 +139,21 @@ const BovinoForm = () => {
           <input type="number" name="precio" id="precio" value={formData.precio} onChange={handleChange} required style={{ width: '100%', padding: '8px' }} />
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="razaId" style={{ display: 'block', marginBottom: '5px' }}>ID Raza:</label>
-          <input type="number" name="razaId" id="razaId" value={formData.razaId} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
+          <label htmlFor="razaId" style={{ display: 'block', marginBottom: '5px' }}>Raza:</label>
+          <select
+            name="razaId"
+            id="razaId"
+            value={formData.razaId}
+            onChange={handleChange}
+            style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
+          >
+            <option value="">Selecciona una raza</option>
+            {razas.map(raza => (
+              <option key={raza.id} value={raza.id}>
+                {raza.nombre}
+              </option>
+            ))}
+          </select>
         </div>
         <div style={{ marginBottom: '10px' }}>
           <label htmlFor="genetica" style={{ display: 'block', marginBottom: '5px' }}>Genética:</label>
@@ -137,7 +171,7 @@ const BovinoForm = () => {
           <label htmlFor="ubicacion" style={{ display: 'block', marginBottom: '5px' }}>Ubicación:</label>
           <input type="text" name="ubicacion" id="ubicacion" value={formData.ubicacion} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
         </div>
-        {user && <p style={{ marginTop: '10px', fontSize: '0.9em' }}>Vendedor ID: {user.id} ({user.email})</p>}
+        {user && <p style={{ marginTop: '10px', fontSize: '0.9em' }}>Vendedor ({user.email})</p>}
 
         <button type="submit" disabled={loading} style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', opacity: loading ? 0.7 : 1 }}>
           {loading ? 'Guardando...' : (isEditing ? 'Actualizar Bovino' : 'Crear Bovino')}

@@ -34,6 +34,16 @@ export const loginUser = async (credentials) => {
   return handleResponse(response);
 };
 
+export const getAllRazas = async () => {
+  const token = getToken();
+  const response = await fetch(`${API_BASE_URL}/razas`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  return handleResponse(response);
+};
+
 export const getAllUsers = async () => {
   const token = getToken();
   const response = await fetch(`${API_BASE_URL}/usuarios`, {

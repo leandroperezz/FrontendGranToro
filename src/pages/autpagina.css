@@ -1,4 +1,4 @@
-.aut-container {
+.auth-container {
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
@@ -8,7 +8,7 @@
   background-color: #fff;
 }
 
-.aut-container h2 {
+.auth-container h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #333;
@@ -31,7 +31,7 @@
   border-radius: 4px;
 }
 
-.aut-btn {
+.auth-btn {
   width: 100%;
   padding: 12px;
   background-color: #007bff;
@@ -42,17 +42,17 @@
   font-size: 1.1em;
 }
 
-.aut-btn:hover {
+.auth-btn:hover {
   background-color: #0056b3;
 }
 
-.aut-toggle-text {
+.auth-toggle-text {
   text-align: center;
   margin-top: 20px;
   font-size: 0.9em;
 }
 
-.aut-toggle-btn {
+.auth-toggle-btn {
   background: none;
   border: none;
   color: #007bff;
@@ -62,7 +62,7 @@
   padding: 0;
 }
 
-.aut-toggle-btn:hover {
+.auth-toggle-btn:hover {
   text-decoration: underline;
 }
 

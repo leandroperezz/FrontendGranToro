@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useAut } from '../context/autcontext';
+import React, { useState, useEffect  } from 'react';
+import { useAuth } from '../context/authcontext';
 import { useNavigate } from 'react-router-dom';
 import './autpagina.css';
 
-const AutPagina = () => {
+const AuthPagina = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -11,13 +11,14 @@ const AutPagina = () => {
   const [location, setLocation] = useState('');
   const [message, setMessage] = useState('');
 
-  const { login, register, isAutenticado } = useAut();
+  const { login, register, isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
 
-  if (isAutenticado) {
-    navigate('/');
-    return null;
-  }
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, loading, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +27,10 @@ const AutPagina = () => {
     if (isLogin) {
       const result = await login({ email, password });
       if (result.success) {
+        setMessage('Login exitoso. Redirigiendo...');
+        setTimeout(() => {
         navigate('/');
+      }, 100);
       } 
       else {
         setMessage(result.message || 'Error al iniciar sesión.');
@@ -48,7 +52,7 @@ const AutPagina = () => {
   };
 
   return (
-    <div className="aut-container">
+    <div className="auth-container">
       <h2>{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</h2>
       {message && <p className={message.includes('Error') ? 'error-message' : 'success-message'}>{message}</p>}
       <form onSubmit={handleSubmit}>
@@ -95,15 +99,15 @@ const AutPagina = () => {
             />
           </div>
         )}
-        <button type="submit" className="aut-btn">
+        <button type="submit" className="auth-btn">
           {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
         </button>
       </form>
-      <p className="aut-toggle-text">
+      <p className="auth-toggle-text">
         {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
         <button
           onClick={() => setIsLogin(!isLogin)}
-          className="aut-toggle-btn"
+          className="auth-toggle-btn"
         >
           {isLogin ? 'Regístrate aquí' : 'Inicia Sesión'}
         </button>
@@ -112,4 +116,4 @@ const AutPagina = () => {
   );
 };
 
-export default AutPagina;
+export default AuthPagina;
