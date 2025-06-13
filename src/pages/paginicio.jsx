@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllBovinos } from '../services/api';
+import { getAllRazas } from '../services/api';
 import { Link } from 'react-router-dom';
 import './paginicio.css';
 
@@ -15,6 +16,24 @@ const PagInicio = () => {
     precioMax: '',
     ubicacion: ''
   });
+
+  const [razas, setRazas] = useState([]);
+  const [loadingRazas, setLoadingRazas] = useState(true);
+  const [errorRazas, setErrorRazas] = useState(null);
+
+useEffect(() => {
+    const fetchRazas = async () => {
+      try {
+        const data = await getAllRazas();
+        setRazas(data);
+      } catch (err) {
+        setErrorRazas('Error al cargar las razas para el filtro: ' + err.message);
+      } finally {
+        setLoadingRazas(false);
+      }
+    };
+    fetchRazas();
+  }, []);
 
   const fetchBovinos = async () => {
     setLoading(true);
@@ -44,6 +63,9 @@ const PagInicio = () => {
     }));
   };
 
+  if (loadingRazas) return <div className="loading-message">Cargando filtros de raza...</div>;
+  if (errorRazas) return <div className="error-message">{errorRazas}</div>;
+
   if (loading) return <div className="loading-message">Cargando bovinos...</div>;
   if (error) return <div className="error-message">{error}</div>;
 
@@ -55,8 +77,21 @@ const PagInicio = () => {
         <h3>Filtros</h3>
         <div className="filters-grid">
           <div className="form-group">
-            <label htmlFor="razaId">ID Raza:</label>
-            <input type="text" name="razaId" id="razaId" value={filters.razaId} onChange={handleFilterChange} />
+            <label htmlFor="razaId" style={{ display: 'block', marginBottom: '5px' }}>Raza:</label>
+            <select
+              name="razaId"
+              id="razaId"
+              value={filters.razaId}
+              onChange={handleFilterChange}
+              style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
+            >
+              <option value="">Todas las Razas</option>
+              {razas.map(raza => (
+                <option key={raza.id} value={raza.id}>
+                  {raza.nombre}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="form-group">
             <label htmlFor="pesoMin">Peso Mín (kg):</label>
