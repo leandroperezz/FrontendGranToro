@@ -127,7 +127,7 @@ const BovinoForm = () => {
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="edad" style={{ display: 'block', marginBottom: '5px' }}>Edad (en meses):</label>
+          <label htmlFor="edad" style={{ display: 'block', marginBottom: '5px' }}>Edad (en años):</label>
           <input type="number" name="edad" id="edad" value={formData.edad} onChange={handleChange} required style={{ width: '100%', padding: '8px' }} />
         </div>
         <div style={{ marginBottom: '10px' }}>
@@ -156,7 +156,7 @@ const BovinoForm = () => {
           </select>
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="genetica" style={{ display: 'block', marginBottom: '5px' }}>Genética:</label>
+          <label htmlFor="genetica" style={{ display: 'block', marginBottom: '5px' }}>Genética (Código "aAa"):</label>
           <input type="text" name="genetica" id="genetica" value={formData.genetica} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
         </div>
         <div style={{ marginBottom: '10px' }}>
@@ -164,7 +164,7 @@ const BovinoForm = () => {
           <textarea name="descripcion" id="descripcion" value={formData.descripcion} onChange={handleChange} rows="4" style={{ width: '100%', padding: '8px' }}></textarea>
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="efectividad" style={{ display: 'block', marginBottom: '5px' }}>Efectividad:</label>
+          <label htmlFor="efectividad" style={{ display: 'block', marginBottom: '5px' }}>Efectividad (Porcentaje):</label>
           <input type="number" name="efectividad" id="efectividad" value={formData.efectividad} onChange={handleChange} style={{ width: '100%', padding: '8px' }} />
         </div>
         <div style={{ marginBottom: '10px' }}>
