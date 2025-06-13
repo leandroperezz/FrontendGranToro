@@ -4,6 +4,7 @@ import PagInicio from './pages/paginicio';
 import AuthPagina from './pages/autpagina';
 import BovinoForm from './pages/bovinoform';
 import { AuthProvider, useAuth } from './context/authcontext';
+import BovinoDetailsPage from './pages/bovinodetallepag';
 
 const NavBar = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -50,6 +51,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PagInicio />} />
           <Route path="/auth" element={<AuthPagina />} />
+          <Route path="/bovinos/:id" element={<BovinoDetailsPage />} /> 
           <Route path="/bovinos/new" element={
             <PrivateRoute>
               <BovinoForm />

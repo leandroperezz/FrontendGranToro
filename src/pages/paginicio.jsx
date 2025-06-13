@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllBovinos } from '../services/api';
 import { getAllRazas } from '../services/api';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/authcontext';
 import './paginicio.css';
 
 const PagInicio = () => {
@@ -20,6 +21,7 @@ const PagInicio = () => {
   const [razas, setRazas] = useState([]);
   const [loadingRazas, setLoadingRazas] = useState(true);
   const [errorRazas, setErrorRazas] = useState(null);
+  const { user, isAuthenticated } = useAuth();
 
 useEffect(() => {
     const fetchRazas = async () => {
@@ -127,9 +129,15 @@ useEffect(() => {
               <p><strong>Peso:</strong> {bovino.peso} kg</p>
               <p><strong>Precio:</strong> ${bovino.precio} USD</p>
               <p><strong>Ubicación:</strong> {bovino.ubicacion}</p>
-              <Link to={`/bovinos/${bovino.id}/edit`} className="bovino-card-details-link">
-                Editar / Ver Más
-              </Link>
+              {isAuthenticated && user?.id === bovino.vendedorId ? (
+                <Link to={`/bovinos/${bovino.id}/edit`} className="bovino-card-details-link" style={{ backgroundColor: '#28a745' }}>
+                  Editar Bovino
+                </Link>
+              ) : (
+                <Link to={`/bovinos/${bovino.id}`} className="bovino-card-details-link" style={{ backgroundColor: '#007bff' }}>
+                  Ver Detalles / Comprar
+                </Link>
+              )}
             </div>
           ))}
         </div>

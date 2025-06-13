@@ -9,6 +9,7 @@ const AuthPagina = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [location, setLocation] = useState('');
+  const [telefono, setTelefono] = useState('');
   const [message, setMessage] = useState('');
 
   const { login, register, isAuthenticated, loading } = useAuth();
@@ -37,7 +38,7 @@ const AuthPagina = () => {
       }
     } 
     else {
-      const result = await register({ name, email, password, location });
+      const result = await register({ name, email, password, location, telefono });
       if (result.success) {
         setMessage('Registro exitoso. ¡Ahora puedes iniciar sesión!');
         setIsLogin(true);
@@ -45,6 +46,7 @@ const AuthPagina = () => {
         setEmail('');
         setPassword('');
         setLocation('');
+        setTelefono('');
       } else {
         setMessage(result.message || 'Error al registrar usuario.');
       }
@@ -97,6 +99,10 @@ const AuthPagina = () => {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             />
+            <div className="form-group">
+              <label htmlFor="telefono">Teléfono:</label>
+              <input type="text" id="telefono" value={telefono} onChange={(e) => setTelefono(e.target.value)} required={!isLogin} placeholder="Ej: 5491234567890" />
+            </div>
           </div>
         )}
         <button type="submit" className="auth-btn">
