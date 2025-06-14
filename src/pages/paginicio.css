@@ -1,19 +1,26 @@
-.homepage-container {
-  text-align: center;
+/* src/pages/paginicio.css */
+
+/* Contenedor principal de la página */
+.page-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
 }
 
-.homepage-container .page-title {
+/* Título de la página */
+.page-title {
+  text-align: center;
   margin-bottom: 30px;
   color: #333;
 }
 
+/* Sección de filtros */
 .filters-section {
   margin-bottom: 30px;
   padding: 15px;
   border: 1px solid #eee;
   border-radius: 8px;
   background-color: #f9f9f9;
-  text-align: left;
 }
 
 .filters-section h3 {
@@ -28,68 +35,141 @@
   gap: 15px;
 }
 
-.filters-grid .form-group label {
+.form-group label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
+  font-size: 0.9em;
+  color: #666;
 }
 
-.filters-grid .form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box; /* Asegura que padding no aumente el ancho total */
+  font-size: 0.95em;
 }
 
+/* Mensajes de carga/error */
 .loading-message,
 .error-message,
 .no-results-message {
   text-align: center;
   margin-top: 50px;
-  font-size: 1.1em;
-}
-
-.error-message {
-  color: red;
-}
-
-.bovino-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  text-align: left;
-}
-
-.bovino-card {
-  border: 1px solid #ddd;
+  padding: 20px;
   border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  background-color: #fff;
 }
 
-.bovino-card-title {
-  margin-bottom: 10px;
+.loading-message {
+  background-color: #e0f7fa;
   color: #007bff;
 }
 
+.error-message {
+  background-color: #ffebee;
+  color: #dc3545;
+}
+
+.no-results-message {
+  background-color: #fffde7;
+  color: #ffc107;
+}
+
+
+/* ********** ESTILOS CLAVE PARA LAS TARJETAS DE BOVINOS (NUEVOS Y MODIFICADOS) ********** */
+
+.bovino-grid {
+  display: grid;
+  /* Ajusta el número de columnas para que se vea más como el ejemplo */
+  /* minmax(280px, 1fr) permite que cada tarjeta tenga al menos 280px de ancho, y se ajuste */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+  gap: 20px; /* Espacio entre las tarjetas */
+  justify-content: center; /* Centra las tarjetas si no llenan la última fila */
+}
+
+.bovino-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden; /* Asegura que la imagen no se desborde del radio */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra para darle más profundidad */
+  display: flex;
+  flex-direction: column; /* Organiza el contenido en columna: imagen arriba, texto abajo */
+  transition: transform 0.2s ease-in-out; /* Animación al pasar el mouse */
+}
+
+.bovino-card:hover {
+  transform: translateY(-5px); /* Pequeño efecto de elevación al pasar el mouse */
+}
+
+.bovino-image-container {
+  width: 100%;
+  height: 200px; /* Altura fija para todas las imágenes de la tarjeta */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0; /* Fondo si la imagen no cubre todo */
+}
+
+.bovino-image-container img {
+  width: 100%; /* La imagen ocupa el 100% del ancho del contenedor */
+  height: 100%; /* La imagen ocupa el 100% de la altura del contenedor */
+  object-fit: cover; /* **Clave**: Recorta la imagen para cubrir el contenedor sin distorsionar */
+  display: block;
+}
+
+.bovino-details-content {
+  padding: 15px; /* Espaciado interno para los detalles textuales */
+  flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Empuja el botón al final si hay espacio */
+}
+
+.bovino-card-title {
+  font-size: 1.2em;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+
 .bovino-card p {
+  font-size: 0.9em;
   margin-bottom: 5px;
-  font-size: 0.95em;
   color: #555;
 }
 
+.bovino-card p strong {
+  color: #333;
+}
+
 .bovino-card-details-link {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #28a745;
+  display: block; /* Para que el botón ocupe todo el ancho */
+  width: calc(100% - 30px); /* Ancho del botón con padding */
+  padding: 10px 15px;
+  margin-top: 15px; /* Espacio arriba del botón */
+  text-align: center;
   color: white;
   text-decoration: none;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
+  font-weight: bold;
+}
+
+/* Colores específicos para los botones */
+.bovino-card-details-link[style*="background-color: rgb(40, 167, 69)"], /* Editar */
+.bovino-card-details-link[style*="background-color: #28a745"] {
+    background-color: #28a745; /* Verde para Editar */
+}
+
+.bovino-card-details-link[style*="background-color: rgb(0, 123, 255)"], /* Ver/Comprar */
+.bovino-card-details-link[style*="background-color: #007bff"] {
+    background-color: #007bff; /* Azul para Ver/Comprar */
 }
 
 .bovino-card-details-link:hover {
-  background-color: #218838;
+  filter: brightness(0.9); /* Oscurecer al pasar el mouse */
 }

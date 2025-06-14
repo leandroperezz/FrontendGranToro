@@ -16,7 +16,8 @@ const BovinoForm = () => {
     descripcion: '',
     efectividad: '',
     ubicacion: '',
-    vendedorId: user?.id || ''
+    vendedorId: user?.id || '',
+    imagenUrl: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,6 +25,7 @@ const BovinoForm = () => {
   const [razas, setRazas] = useState([]);
   const [loadingRazas, setLoadingRazas] = useState(true);
   const [errorRazas, setErrorRazas] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const isEditing = Boolean(id);
 
@@ -34,7 +36,8 @@ const BovinoForm = () => {
         setRazas(data);
       } catch (err) {
         setErrorRazas('Error al cargar las razas: ' + err.message);
-      } finally {
+      } 
+      finally {
         setLoadingRazas(false);
       }
     };
@@ -77,6 +80,10 @@ const BovinoForm = () => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -89,21 +96,33 @@ const BovinoForm = () => {
       return;
     }
 
+    const formPayload = new FormData();
+    for (const key in formData) {
+      if (key !== 'imagenUrl') {
+        formPayload.append(key, formData[key]);
+      }
+    }
+    if (selectedFile) {
+      formPayload.append('imagen', selectedFile);
+    } else if (isEditing && formData.imagenUrl === '') {
+      formPayload.append('imagenUrl', '');
+    }
+
     try {
       if (isEditing) {
-        await updateBovino(id, formData);
+        await updateBovino(id, formPayload);
         setMessage('Bovino actualizado con éxito.');
-      } else {
-        await createBovino(formData);
+      } 
+      else {
+        await createBovino(formPayload);
         setMessage('Bovino creado con éxito.');
         setFormData({
           razaId: '', edad: '', peso: '', genetica: '', precio: '',
-          descripcion: '', efectividad: '', ubicacion: '', vendedorId: user.id
+          descripcion: '', efectividad: '', ubicacion: '', vendedorId: user.id, imagenUrl: ''
         });
+        setSelectedFile(null);
       }
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+      setTimeout(() => { navigate('/'); }, 2000);
     } catch (err) {
       setError('Error al guardar el bovino: ' + err.message);
     } finally {
@@ -154,6 +173,21 @@ const BovinoForm = () => {
               </option>
             ))}
           </select>
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <label htmlFor="imagen" style={{ display: 'block', marginBottom: '5px' }}>Imagen del Bovino:</label>
+          <input type="file" name="imagen" id="imagen" onChange={handleFileChange} accept="image/*" />
+          {formData.imagenUrl && (isEditing || selectedFile) && (
+            <div style={{ marginTop: '10px' }}>
+              <p>Imagen actual:</p>
+              <img src={`http://localhost:3000${formData.imagenUrl}`} alt="Imagen del bovino" style={{ maxWidth: '200px', maxHeight: '200px', objectFit: 'contain' }} />
+              {isEditing && (
+                <button type="button" onClick={() => setFormData(prev => ({...prev, imagenUrl: ''}))} style={{ marginLeft: '10px', backgroundColor: '#dc3545', padding: '5px 10px' }}>
+                    Eliminar Imagen Actual
+                </button>
+              )}
+            </div>
+          )}
         </div>
         <div style={{ marginBottom: '10px' }}>
           <label htmlFor="genetica" style={{ display: 'block', marginBottom: '5px' }}>Genética (Código "aAa"):</label>

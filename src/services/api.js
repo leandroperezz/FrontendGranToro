@@ -66,10 +66,10 @@ export const createBovino = async (bovinoData) => {
   const response = await fetch(`${API_BASE_URL}/bovinos`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      //'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
     },
-    body: JSON.stringify(bovinoData),
+    body: bovinoData,
   });
   return handleResponse(response);
 };
@@ -84,10 +84,10 @@ export const updateBovino = async (id, bovinoData) => {
   const response = await fetch(`${API_BASE_URL}/bovinos/${id}`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json',
+      //'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
     },
-    body: JSON.stringify(bovinoData),
+    body: bovinoData,
   });
   return handleResponse(response);
 };

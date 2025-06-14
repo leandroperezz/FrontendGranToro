@@ -124,19 +124,30 @@ useEffect(() => {
         <div className="bovino-grid">
           {bovinos.map((bovino) => (
             <div key={bovino.id} className="bovino-card">
-              <p><strong>Raza:</strong> {bovino.raza ? bovino.raza.nombre : 'Desconocida'}</p>
-              <p><strong>Peso:</strong> {bovino.peso} kg</p>
-              <p><strong>Precio:</strong> ${bovino.precio} USD</p>
-              <p><strong>Ubicación:</strong> {bovino.ubicacion}</p>
-              {isAuthenticated && user?.id === bovino.vendedorId ? (
-                <Link to={`/bovinos/${bovino.id}/edit`} className="bovino-card-details-link" style={{ backgroundColor: '#28a745' }}>
-                  Editar Bovino
-                </Link>
-              ) : (
-                <Link to={`/bovinos/${bovino.id}`} className="bovino-card-details-link" style={{ backgroundColor: '#007bff' }}>
-                  Ver Detalles / Comprar
-                </Link>
+              {bovino.imagenUrl && (
+                <div className="bovino-image-container">
+                  <img
+                    src={`http://localhost:3000${bovino.imagenUrl}`}
+                    alt={bovino.nombre || `Bovino ID: ${bovino.id}`}
+                  />
+                </div>
               )}
+              <div className="bovino-details-content">
+                <h3 className="bovino-card-title">{bovino.nombre || `Bovino ID: ${bovino.id}`}</h3>
+                <p><strong>Raza:</strong> {bovino.raza ? bovino.raza.nombre : 'Desconocida'}</p>
+                <p><strong>Peso:</strong> {bovino.peso} kg</p>
+                <p><strong>Precio:</strong> ${bovino.precio} USD</p>
+                <p><strong>Ubicación:</strong> {bovino.ubicacion}</p>
+                {isAuthenticated && user?.id === bovino.vendedorId ? (
+                  <Link to={`/bovinos/${bovino.id}/edit`} className="bovino-card-details-link" style={{ backgroundColor: '#28a745' }}>
+                    Editar Bovino
+                  </Link>
+                ) : (
+                  <Link to={`/bovinos/${bovino.id}`} className="bovino-card-details-link" style={{ backgroundColor: '#007bff' }}>
+                    Ver Detalles / Comprar
+                  </Link>
+                )}
+              </div>
             </div>
           ))}
         </div>

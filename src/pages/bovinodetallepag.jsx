@@ -60,9 +60,9 @@ const BovinoDetailsPage = () => {
       <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
         {bovino.imagenUrl && (
           <div style={{ flex: '1 1 300px', maxWidth: '100%', display: 'flex', justifyContent: 'center' }}>
-            <img src={`http://localhost:3000${bovino.imagenUrl}`} alt={bovino.nombre || 'Bovino'} style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain', borderRadius: '8px' }} />
-          </div>
-        )}
+          <img src={`http://localhost:3000${bovino.imagenUrl}`} alt={bovino.nombre || 'Bovino'} style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain', borderRadius: '8px' }} />
+      </div>
+  )}
         <div style={{ flex: '2 1 400px' }}>
           <p><strong>Raza:</strong> {bovino.raza ? bovino.raza.nombre : 'Desconocida'}</p>
           <p><strong>Edad:</strong> {bovino.edad} años</p>
