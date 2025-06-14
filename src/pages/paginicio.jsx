@@ -124,7 +124,6 @@ useEffect(() => {
         <div className="bovino-grid">
           {bovinos.map((bovino) => (
             <div key={bovino.id} className="bovino-card">
-              <h3 className="bovino-card-title">{bovino.nombre || `Bovino ID: ${bovino.id}`}</h3>
               <p><strong>Raza:</strong> {bovino.raza ? bovino.raza.nombre : 'Desconocida'}</p>
               <p><strong>Peso:</strong> {bovino.peso} kg</p>
               <p><strong>Precio:</strong> ${bovino.precio} USD</p>

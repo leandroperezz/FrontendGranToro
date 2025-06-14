@@ -55,7 +55,7 @@ const BovinoDetailsPage = () => {
 
   return (
     <div style={{ maxWidth: '800px', margin: '20px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Detalles del Bovino: {bovino.nombre || `ID ${bovino.id}`}</h1>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Detalles del Bovino:</h1>
 
       <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
         {bovino.imagenUrl && (
@@ -68,9 +68,9 @@ const BovinoDetailsPage = () => {
           <p><strong>Edad:</strong> {bovino.edad} años</p>
           <p><strong>Peso:</strong> {bovino.peso} kg</p>
           <p><strong>Precio:</strong> ${bovino.precio} USD</p>
-          <p><strong>Genética:</strong> {bovino.genetica || 'No especificado'}</p>
+          <p><strong>Genética (código aAa):</strong> {bovino.genetica || 'No especificado'}</p>
           <p><strong>Descripción:</strong> {bovino.descripcion || 'Sin descripción'}</p>
-          <p><strong>Efectividad:</strong> {bovino.efectividad || 'No especificada'}</p>
+          <p><strong>Efectividad:</strong> {bovino.efectividad || 'No especificada'}%</p>
           <p><strong>Ubicación:</strong> {bovino.ubicacion || 'No especificada'}</p>
           <p><strong>Vendedor:</strong> {bovino.propietario ? bovino.propietario.name : 'Desconocido'} ({bovino.propietario ? bovino.propietario.email : ''})</p>
           {bovino.propietario?.telefono && (
