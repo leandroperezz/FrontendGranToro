@@ -37,7 +37,7 @@ useEffect(() => {
     fetchRazas();
   }, []);
 
-  const fetchBovinos = async () => {
+  const fetchBovinos = async (currentFilters) => {
     setLoading(true);
     setError(null);
     try {
@@ -54,8 +54,8 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    fetchBovinos();
-  }, [filters]);
+    fetchBovinos(filters);
+  }, []);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -63,6 +63,10 @@ useEffect(() => {
       ...prevFilters,
       [name]: value
     }));
+  };
+  
+  const applyFilters = () => {
+    fetchBovinos(filters);
   };
 
   if (loadingRazas) return <div className="loading-message">Cargando filtros de raza...</div>;
@@ -97,25 +101,28 @@ useEffect(() => {
           </div>
           <div className="form-group">
             <label htmlFor="pesoMin">Peso Mín (kg):</label>
-            <input type="number" name="pesoMin" id="pesoMin" value={filters.pesoMin} onChange={handleFilterChange} />
+            <input type="text" name="pesoMin" id="pesoMin" value={filters.pesoMin} onChange={handleFilterChange} />
           </div>
           <div className="form-group">
             <label htmlFor="pesoMax">Peso Máx (kg):</label>
-            <input type="number" name="pesoMax" id="pesoMax" value={filters.pesoMax} onChange={handleFilterChange} />
+            <input type="text" name="pesoMax" id="pesoMax" value={filters.pesoMax} onChange={handleFilterChange} />
           </div>
           <div className="form-group">
             <label htmlFor="precioMin">Precio Mín (USD):</label>
-            <input type="number" name="precioMin" id="precioMin" value={filters.precioMin} onChange={handleFilterChange} />
+            <input type="text" name="precioMin" id="precioMin" value={filters.precioMin} onChange={handleFilterChange} />
           </div>
           <div className="form-group">
             <label htmlFor="precioMax">Precio Máx (USD):</label>
-            <input type="number" name="precioMax" id="precioMax" value={filters.precioMax} onChange={handleFilterChange} />
+            <input type="text" name="precioMax" id="precioMax" value={filters.precioMax} onChange={handleFilterChange} />
           </div>
           <div className="form-group">
             <label htmlFor="ubicacion">Ubicación:</label>
             <input type="text" name="ubicacion" id="ubicacion" value={filters.ubicacion} onChange={handleFilterChange} />
           </div>
         </div>
+        <button onClick={applyFilters} style={{ marginTop: '20px', padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+          Aplicar Filtros
+        </button>
       </div>
 
       {bovinos.length === 0 ? (
