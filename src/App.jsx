@@ -16,7 +16,7 @@ const NavBar = () => {
         <Link to="/" style={{ color: 'white', textDecoration: 'none', fontSize: '1.2em', fontWeight: 'bold' }}>El Gran Toro</Link>
         {isAuthenticated && (
           <>
-            <Link to="/bovinos/new" style={{ color: 'white', textDecoration: 'none', marginLeft: '20px' }}>Publicar Bovino</Link>
+            <Link to="/bovinos/registrarbovino" style={{ color: 'white', textDecoration: 'none', marginLeft: '20px' }}>Publicar Bovino</Link>
           </>
         )}
       </div>
@@ -24,7 +24,7 @@ const NavBar = () => {
         {isAuthenticated ? (
           <span style={{ marginRight: '15px' }}>Hola, {user?.name || user?.email}</span>
         ) : (
-          <Link to="/auth" style={{ color: 'white', textDecoration: 'none', marginRight: '15px' }}>Iniciar Sesión / Registrarse</Link>
+          <Link to="/login" style={{ color: 'white', textDecoration: 'none', marginRight: '15px' }}>Iniciar Sesión / Registrarse</Link>
         )}
         {isAuthenticated && (
           <button onClick={logout} style={{ background: 'none', border: '1px solid white', color: 'white', padding: '8px 12px', borderRadius: '5px', cursor: 'pointer' }}>Cerrar Sesión</button>
@@ -39,7 +39,7 @@ const PrivateRoute = ({ children }) => {
   if (loading) {
     return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando autenticación...</div>;
   }
-  return isAuthenticated ? children : <Navigate to="/auth" />;
+  return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 
@@ -50,14 +50,14 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<PagInicio />} />
-          <Route path="/auth" element={<AuthPagina />} />
+          <Route path="/login" element={<AuthPagina />} />
           <Route path="/bovinos/:id" element={<BovinoDetailsPage />} /> 
-          <Route path="/bovinos/new" element={
+          <Route path="/bovinos/registrarbovino" element={
             <PrivateRoute>
               <BovinoForm />
             </PrivateRoute>
           } />
-          <Route path="/bovinos/:id/edit" element={
+          <Route path="/bovinos/:id/editarbovino" element={
             <PrivateRoute>
               <BovinoForm />
             </PrivateRoute>

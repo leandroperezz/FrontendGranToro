@@ -44,7 +44,7 @@ const BovinoDetailsPage = () => {
   };
 
   const sellerPhoneNumber = bovino?.propietario?.telefono;
-  const whatsappMessage = `Hola, me interesa el bovino ID ${bovino?.id} (${bovino?.nombre || 'sin nombre'}) que vi en El Gran Toro.`;
+  const whatsappMessage = `Hola, me interesa su bovino que vi en Gran Toro.`;
   const whatsappLink = sellerPhoneNumber
     ? `https://wa.me/${sellerPhoneNumber}?text=${encodeURIComponent(whatsappMessage)}`
     : null;
@@ -94,7 +94,7 @@ const BovinoDetailsPage = () => {
 
         {isAuthenticated && user?.id === bovino.vendedorId && (
           <>
-            <Link to={`/bovinos/${bovino.id}/edit`}
+            <Link to={`/bovinos/${bovino.id}/editarbovino`}
                   style={{ padding: '10px 20px', backgroundColor: '#28a745', color: 'white', textDecoration: 'none', borderRadius: '5px', marginRight: '10px' }}>
               Editar Bovino
             </Link>

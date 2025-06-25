@@ -11,7 +11,7 @@ const NavBar = () => {
         <Link to="/" className="navbar-brand">El Gran Toro</Link>
         {isAuthenticated && (
           <>
-            <Link to="/bovinos/new" className="navbar-link">Publicar Bovino</Link>
+            <Link to="/bovinos/registrarbovino" className="navbar-link">Publicar Bovino</Link>
           </>
         )}
       </div>

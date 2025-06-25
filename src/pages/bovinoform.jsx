@@ -48,7 +48,7 @@ const BovinoForm = () => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/auth');
+      navigate('/login');
       return;
     }
     if (isEditing) {
